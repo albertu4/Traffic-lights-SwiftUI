@@ -7,9 +7,9 @@
 
 import SwiftUI
 
-struct TrafficLightView: View {
+struct TrafficLight: View {
     let color: Color
-    var opacity: Double
+    let opacity: Double
     
     var body: some View {
         Circle()
@@ -22,6 +22,6 @@ struct TrafficLightView: View {
 
 struct TrafficLightView_Previews: PreviewProvider {
     static var previews: some View {
-        TrafficLightView(color: .green, opacity: 0.5)
+        TrafficLight(color: .green, opacity: 0.5)
     }
 }

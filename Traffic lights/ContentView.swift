@@ -9,58 +9,41 @@ import SwiftUI
 
 struct ContentView: View {
     
-    @State var buttonLabel = "Start"
-    @State var currentLight = Color.red
-    
-    @State var redLight = TrafficLightView(color: .red, opacity: 0.5)
-    @State var yellowLight = TrafficLightView(color: .yellow, opacity: 0.5)
-    @State var greenLight = TrafficLightView(color: .green, opacity: 0.5)
+    @State private var buttonLabel = "START"
+    @State private var currentLight = Color.white
     
     var body: some View {
-        
         
         ZStack {
             Color.black
                 .ignoresSafeArea()
             
             VStack {
-                redLight
-                    .padding(.top)
-                yellowLight
-                    .padding()
-                greenLight
-                    .padding(.bottom)
-                
+                trafficLights
                 Spacer()
-                
-                Button(action: {
-                    buttonLabel = "Next"
-                    print(currentLight)
-
-                    switch currentLight {
-                    case .red:
-                        greenLight.opacity = 0.5
-                        redLight.opacity = 1.0
-                        currentLight = .yellow
-                    case .yellow:
-                        redLight.opacity = 0.5
-                        yellowLight.opacity = 1.0
-                        currentLight = .green
-                    default:
-                        yellowLight.opacity = 0.5
-                        greenLight.opacity = 1.0
-                        currentLight = .red
-                    }
-                }, label: {
-                    Text(buttonLabel)
-                })
-                    .frame(width: 120.0, height: 50.0)
-                    .font(/*@START_MENU_TOKEN@*/.title/*@END_MENU_TOKEN@*/)
-                    .foregroundColor(.white)
-                    .background(Color.blue)
-                    .cornerRadius(10)
-                    .padding(.bottom)
-            }
+                ColorButton(title: buttonLabel) {
+                    buttonLabel = "NEXT"
+                    changeLightColor()
+                }
+            }.padding(16)
+        }
+    } 
+    
+    private var trafficLights: some View {
+        VStack(spacing: 25) {
+            TrafficLight(color: .red, opacity: currentLight == .red ? 1 : 0.3)
+            TrafficLight(color: .yellow, opacity: currentLight == .yellow ? 1 : 0.3)
+            TrafficLight(color: .green, opacity: currentLight == .green ? 1 : 0.3)
+        }
+    }
+    
+    private func changeLightColor() {
+        
+        switch currentLight {
+        case .red: currentLight = .yellow
+        case .yellow: currentLight = .green
+        default: currentLight = .red
+            
         }
     }
 }
